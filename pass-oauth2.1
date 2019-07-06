@@ -1,0 +1,43 @@
+.TH pass-auth2 1 "2019 July 6" "Password store OAUTH2 extension"
+
+.SH NAME
+pass-oauth2 - a \fBpass\fP(1) to exchange refresh token for an access token
+
+.SH SYNOPSIS
+.B pass
+oauth2
+[
+.I COMMAND
+]
+
+.SH DESCRIPTION
+
+.BR pass-oauth2
+extends the
+.BR pass(1)
+utility with the
+.B oauth2
+command for exchanging refresh token for an access token
+
+.SH COMMANDS
+.TP
+\fBoauth2\fP \fIpass-name\fP 
+.br
+Display the access token exchanged from the refresh token. The first line of the password file is used as refresh token, the remaining metadata is used as parameters for \fBcurl\fP(1) in the token exchange request
+
+.SH SEE ALSO
+.BR pass (1)
+.BR curl (1)
+
+.SH AUTHOR
+.B pass-oauth2
+was written by
+.MT frode.aa@gmail.com
+Frode Aannevik
+.ME .
+
+.SH HOME
+.I https://github.com/frodeaa/pass-oauth
+
+.SH REPORTING BUGS
+.I https://github.com/frodeaa/pass-extension-oauth/issues

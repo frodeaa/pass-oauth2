@@ -1,0 +1,5 @@
+PASSWORD_STORE_EXTENSION_COMMANDS+=(oauth2)
+
+__password_store_extension_complete_oauth2() {
+    _pass_complete_entries 1
+}
