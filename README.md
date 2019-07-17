@@ -1,3 +1,7 @@
+| Branch | Status |
+|--------|--------|
+| [**master**](https://github.com/frodeaa/pass-oauth2/tree/master) | [![Build Status: master](https://travis-ci.org/frodeaa/pass-oauth2.svg?branch=master)](https://travis-ci.org/frodeaa/pass-oauth2) |
+
 # pass oauth
 
 An extension for the [password store](https://www.passwordstore.org/) that
