@@ -7,15 +7,17 @@ env:
 addons:
   apt:
     packages:
+      - shellcheck
       - cabal-install
 
 before_script:
   - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
   - tar -xvf password-store-$PASS_VERSION.tar.xz
   - ln -s password-store-$PASS_VERSION/src/password-store.sh pass
-  - if [ ! -f "${HOME}/.cabal/bin/shellcheck" ]; then cabal update; cabal install ShellCheck; fi
-  - ln -s "${HOME}/.cabal/bin/shellcheck" shellcheck
   - export PATH=$PATH:.
+  - rm -rf output
+  - mkdir output
+  - export PATH=$PATH:./output/bin
 
 before_cache:
   - rm $HOME/.cabal/logs/build.log
@@ -26,8 +28,8 @@ cache:
 
 script:
   - make lint
-  - make install
-  - make uninstall
+  - PREFIX=output BASHCOMPDIR=output make install
+  - PREFIX=output BASHCOMPDIR=output make uninstall
 
 notifications:
   email:
