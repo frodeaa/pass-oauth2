@@ -1,0 +1,37 @@
+language: bash
+
+env:
+  - PASS_VERSION=1.7.3
+  - PASS_VERSION=master
+
+addons:
+  apt:
+    packages:
+      - cabal-install
+
+before_script:
+  - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
+  - tar -xvf password-store-$PASS_VERSION.tar.xz
+  - ln -s password-store-$PASS_VERSION/src/password-store.sh pass
+  - if [ ! -f "${HOME}/.cabal/bin/shellcheck" ]; then cabal update; cabal install ShellCheck; fi
+  - ln -s "${HOME}/.cabal/bin/shellcheck" shellcheck
+  - export PATH=$PATH:.
+
+before_cache:
+  - rm $HOME/.cabal/logs/build.log
+
+cache:
+  directories:
+    - $HOME/.cabal
+
+script:
+  - make lint
+  - make install
+  - make uninstall
+
+notifications:
+  email:
+    recipients:
+      - frode.aa+pass-oauth2@gmail.com
+    on_success: never
+    on_failure: always
