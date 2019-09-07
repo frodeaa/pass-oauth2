@@ -45,26 +45,22 @@ cmd_oauth2() {
 
     [[ -f $passfile ]] || die "Passfile not found"
 
-    local url=
-    local refresh_token=
-    local curl_params=
+    local cconf=
 
     while IFS= read -r line; do
-        [[ -z $curl_params ]] && [[ -z $refresh_token ]] && refresh_token="$line"
-        [[ -z $url && "$line" == url:* ]] && url="$(awk '{ print $2 }' <<< "$line")"
-        data="$(awk -F ': ' '{if ($1 != "url" && $2 != "") print "--data " $1 "=" $2 }' \
-            <<< "$line")"
-        curl_params+="$curl_params $data"
+        if [[ "$line" == url:* ]]; then
+            cconf+="$line"
+        else
+            cconf+="$(awk -F ': ' '{ printf "-d " $1 "=" $2 }' <<< "$line")"
+        fi
+        cconf+=$'\n'
     done < <($GPG -d "${GPG_OPTS[@]}" "$passfile")
 
-    [[ -z $url ]] && die "No url found"
-    [[ -z $refresh_token ]] && die "No refresh token found"
-
     local out=
-    # shellcheck disable=SC2086
-    out=$($CURL --silent ${curl_params} \
-        --data refresh_token="${refresh_token}" "${url}" \
-        | grep access_token | awk '{ print $2 }' | sed s/\"//g | sed s/,//g) \
+    out=$(echo "$cconf" | $CURL -K - --silent \
+        | grep access_token \
+        | awk '{ print $2 }' \
+        | sed s/\"//g | sed s/,//g) \
         || die "$path: failed to create access token."
 
     if [[ $clip -ne 0 ]]; then

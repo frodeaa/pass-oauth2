@@ -21,15 +21,15 @@ More information may be found in the pass-oauth2(1) man page.
 
 ## Examples
 
-A pass file with refresh token, url and other metadata for the OAUTH2 exchange.
+A pass file with refresh token, url and other data parameters for the OAUTH2 exchange.
 
 ```
 $ pass email/gmail
-{refresh_token}
-url: https://accounts.google.com/oauth2/token
-grant_type: refresh_token
-client_id: xxxxxxxxxx
-client_secret: xxxxxxxxxx
+url: https://accounts.google.com/o/oauth2/token
+refresh_token: {refresh_token}"
+grant_type: refresh_token"
+client_id: {client_id}"
+client_secret: {client_secret}"
 ```
 
 Exchange for an access token
