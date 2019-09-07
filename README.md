@@ -9,7 +9,7 @@ exchange an refresh token for an access token.
 
 ## Usage
 ```
-pass oauth pass-name
+pass oauth [--clip,-c] pass-name
 ```
 
 ## Examples
