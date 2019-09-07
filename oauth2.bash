@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # pass oauth - Password Store Extension (https://www.passwordstore.org/)
 
+VERSION="1.0.0"
 CURL=$(command -v curl)
 
 cmd_oauth2_usage() {
@@ -14,6 +15,11 @@ Usage:
 
 More information may be found in the pass-oauth2(1) man page.
 _EOF
+    exit 0
+}
+
+cmd_oauth2_version() {
+    echo $VERSION
     exit 0
 }
 
@@ -70,6 +76,7 @@ cmd_oauth2() {
 
 case "$1" in
     help|--help|-h) shift; cmd_oauth2_usage "$@" ;;
+    version|--version) shift; cmd_oauth2_version "$@" ;;
     *)                     cmd_oauth2 "$@" ;;
 esac
 exit 0
