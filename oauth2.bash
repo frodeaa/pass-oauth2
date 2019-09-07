@@ -3,7 +3,19 @@
 
 set -Eeuo pipefail
 
-path="$1"
+opts=
+clip=0
+opts="$($GETOPT -o c -l clip -n "$PROGRAM" -- "$@")"
+err=$?
+eval set -- "$opts"
+while true; do case $1 in
+  -c|--clip) clip=1; shift ;;
+  --) shift; break ;;
+esac done
+
+[[ $err -ne 0 || $# -ne 1 ]] && die "Usage: $PROGRAM $COMMAND [--clip,-  c] pass-name"
+
+path="${1%/}"
 passfile="$PREFIX/$path.gpg"
 check_sneaky_paths "$path"
 
@@ -24,6 +36,13 @@ done < <($GPG -d "${GPG_OPTS[@]}" "$passfile")
 [[ -z $refresh_token ]] && die "No refresh token found"
 
 # shellcheck disable=SC2086
-curl --silent ${curl_params} \
+out=$(curl --silent ${curl_params} \
     --data refresh_token="${refresh_token}" "${url}" \
-    | grep access_token | awk '{ print $2 }' | sed s/\"//g | sed s/,//g
+    | grep access_token | awk '{ print $2 }' | sed s/\"//g | sed s/,//g) \
+    || die "$path: failed to create access token."
+
+if [[ $clip -ne 0 ]]; then
+    clip "$out" "access token for $path"
+else
+    echo "$out"
+fi
