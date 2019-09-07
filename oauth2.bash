@@ -51,7 +51,8 @@ cmd_oauth2() {
         if [[ "$line" == url:* ]]; then
             cconf+="$line"
         else
-            cconf+="$(awk -F ': ' '{ printf "-d " $1 "=" $2 }' <<< "$line")"
+            cconf+="$(awk -F ': ' \
+                '{if ($2 != "") printf "-d " $1 "=" $2 }' <<< "$line")"
         fi
         cconf+=$'\n'
     done < <($GPG -d "${GPG_OPTS[@]}" "$passfile")
