@@ -1,7 +1,19 @@
 #!/usr/bin/env bash
 # pass oauth - Password Store Extension (https://www.passwordstore.org/)
 
-set -Eeuo pipefail
+cmd_oauth2_usage() {
+    cat <<-_EOF
+Usage:
+
+    $PROGRAM oauth2 [code] [--clip,-c] pass-name
+        Exhange refresh token for an access token and optionally put
+        it on the clipboard. If put on the clipboard, it will be
+        cleared in $CLIP_TIME seconds.
+
+More information may be found in the pass-oauth2(1) man page.
+_EOF
+    exit 0
+}
 
 cmd_oauth2() {
     local opts clip=0
@@ -52,6 +64,7 @@ cmd_oauth2() {
 }
 
 case "$1" in
-  *)                     cmd_oauth2 "$@" ;;
+    help|--help|-h) shift; cmd_oauth2_usage "$@" ;;
+    *)                     cmd_oauth2 "$@" ;;
 esac
 exit 0
