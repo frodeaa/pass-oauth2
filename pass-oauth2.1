@@ -1,7 +1,7 @@
 .TH pass-auth2 1 "2019 July 6" "Password store OAUTH2 extension"
 
 .SH NAME
-pass-oauth2 - a \fBpass\fP(1) to exchange refresh token for an access token
+pass-oauth2 - a \fBpass\fP(1) extension for exchanging refresh token for an access token
 
 .SH SYNOPSIS
 .B pass oauth2
@@ -27,8 +27,8 @@ command for exchanging refresh token for an access token
 Print the access token exchanged from the refresh token stored in
 \fIpass-name\fP using \fBcurl\fP(1). If \fI--clip\fP or \fI-c\fP is
 specified, do not print the access token but instead copy it to the
- clipboard using \fBxclip\fP(1) and then restore the clipboard after
- 45 (or \fIPASSWORD_STORE_CLIP_TIME\fP) seconds.
+clipboard using \fBxclip\fP(1) and then restore the clipboard after
+45 (or \fIPASSWORD_STORE_CLIP_TIME\fP) seconds.
 
 .SH SEE ALSO
 .BR pass (1)
