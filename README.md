@@ -9,7 +9,14 @@ exchange an refresh token for an access token.
 
 ## Usage
 ```
-pass oauth [--clip,-c] pass-name
+Usage:
+
+    pass oauth2 [code] [--clip,-c] pass-name
+        Exhange refresh token for an access token and optionally put
+        it on the clipboard. If put on the clipboard, it will be
+        cleared in 45 seconds.
+
+More information may be found in the pass-oauth2(1) man page.
 ```
 
 ## Examples
