@@ -1,5 +1,6 @@
 PASSWORD_STORE_EXTENSION_COMMANDS+=(oauth2)
 
 __password_store_extension_complete_oauth2() {
+    COMPREPLY+=($(compgen -W "-h --help -c --clip" -- ${cur}))
     _pass_complete_entries 1
 }
