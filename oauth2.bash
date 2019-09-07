@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # pass oauth - Password Store Extension (https://www.passwordstore.org/)
 
+CURL=$(command -v curl)
+
 cmd_oauth2_usage() {
     cat <<-_EOF
 Usage:
@@ -16,6 +18,9 @@ _EOF
 }
 
 cmd_oauth2() {
+    [[ -z "$CURL" ]] && \
+        die "Failed to exchang refresh token: curl is not installed."
+
     local opts clip=0
     opts="$($GETOPT -o c -l clip -n "$PROGRAM" -- "$@")"
     local err=$?
@@ -51,7 +56,7 @@ cmd_oauth2() {
 
     local out=
     # shellcheck disable=SC2086
-    out=$(curl --silent ${curl_params} \
+    out=$($CURL --silent ${curl_params} \
         --data refresh_token="${refresh_token}" "${url}" \
         | grep access_token | awk '{ print $2 }' | sed s/\"//g | sed s/,//g) \
         || die "$path: failed to create access token."
